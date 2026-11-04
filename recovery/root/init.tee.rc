@@ -47,8 +47,10 @@ on post-fs
     # We restorecon /mnt/vendor/persist to set SEPolicy label.
     restorecon /mnt/vendor/persist
 
-    # Create mcRegistry to store failure record
+    # Create mcRegistry to store failure records and keybox data.
     mkdir /mnt/vendor/persist/mcRegistry 0771 system system
+    mkdir /mnt/vendor/persist/mcRegistry/tee_logs 0771 system system
+    mkdir /mnt/vendor/persist/keybox 0771 system system
     mkdir /mnt/vendor/persist/paytrigger
     chown system system /mnt/vendor/persist/paytrigger
     chmod 0777 /mnt/vendor/persist/paytrigger

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/transsion/mt6895-common
+COMMON_PATH := device/transsion/mt6789-common
 
 TARGET_RECOVERY_DEVICE_DIRS := \
     $(COMMON_PATH) \
@@ -18,7 +18,7 @@ TARGET_CPU_ABI2 :=
 TARGET_CPU_VARIANT := generic
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := mt6895
+TARGET_BOOTLOADER_BOARD_NAME := mt6789
 TARGET_NO_BOOTLOADER := true
 
 # Build hacks
@@ -77,7 +77,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 
 # Platform
-TARGET_BOARD_PLATFORM := transsion_mt6895
+TARGET_BOARD_PLATFORM := transsion_mt6789
 
 # Properties
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
@@ -143,7 +143,7 @@ TW_DEFAULT_BRIGHTNESS := 2047
 TW_EXCLUDE_APEX := true
 TW_FRAMERATE := 120
 TARGET_USES_MKE2FS := true
-TW_MAX_BRIGHTNESS := 5119
+TW_MAX_BRIGHTNESS := 4095
 
 # Hack depends
 ALLOW_MISSING_DEPENDENCIES := true

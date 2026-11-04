@@ -1,5 +1,10 @@
 # Generic recovery init owns configfs, the ADB/fastboot FunctionFS mounts,
 # and the single-function ADB, sideload, and fastboot bindings.
+on early-init
+    # Let the MUSB controller finish its stock kernel-side initialization
+    # before recovery starts the gadget.
+    write /sys/module/musb_hdrc/parameters/kernel_init_done 1
+
 on post-fs
     # Use the MTK vendor ID for MTP and mass-storage configurations.
     setprop sys.usb.vid.mtk "0x0E8D"

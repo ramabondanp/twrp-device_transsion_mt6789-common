@@ -3,15 +3,15 @@ import /init.device.rc
 
 on init
     setprop sys.usb.configfs 1
-    setprop sys.usb.controller "11201000.usb0"
+    setprop sys.usb.controller "musb-hdrc"
     setprop sys.usb.ffs.aio_compat 0
     export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw
     setprop crypto.ready 1
     start vendor.boot-default
 
 on fs
-    wait /dev/block/platform/soc/112b0000.ufshci
-    symlink /dev/block/platform/soc/112b0000.ufshci /dev/block/bootdevice
+    wait /dev/block/platform/soc/11270000.ufshci
+    symlink /dev/block/platform/soc/11270000.ufshci /dev/block/bootdevice
 
 on boot
     setprop sys.usb.config adb
@@ -22,8 +22,8 @@ on boot
 on property:persist.vendor.mtk.pl_lnk=1
     symlink /dev/block/mapper/pl_a /dev/block/by-name/preloader_raw_a
     symlink /dev/block/mapper/pl_b /dev/block/by-name/preloader_raw_b
-    symlink /dev/block/mapper/pl_a /dev/block/bootdevice/by-name/preloader_raw_a
-    symlink /dev/block/mapper/pl_b /dev/block/bootdevice/by-name/preloader_raw_b
+    symlink /dev/block/mapper/pl_a /dev/block/platform/bootdevice/by-name/preloader_raw_a
+    symlink /dev/block/mapper/pl_b /dev/block/platform/bootdevice/by-name/preloader_raw_b
 
     symlink /dev/block/by-name/lk1 /dev/block/by-name/bootloader1
     symlink /dev/block/by-name/lk2 /dev/block/by-name/bootloader2
@@ -85,11 +85,3 @@ on property:twrp.storage.ready=1 && property:ro.vendor.trustonic.ready=true
 
 on property:servicemanager.ready=true
     setprop sys.boot_completed 1
-
-# The AWINIC RichTap driver defers loading haptic_ram.bin by 8 seconds
-# (ram_work_init queues its work for 2000 jiffies). The TWRP UI is
-# interactive before then, and the driver rejects those first activations
-# with "ram init failed, not allow to play!". Trigger the firmware load as
-# soon as boot completes so the vibrator is ready before the first touch.
-on property:sys.boot_completed=1
-    write /sys/class/leds/vibrator_single/ram_update 1
